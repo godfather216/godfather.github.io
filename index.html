@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>订阅2一键导入</title>
+    <title>一键导入</title>
     <style>
         body, html {
             height: 100%;
@@ -29,52 +29,66 @@
             color: #fff;
             text-align: center;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            font-size: 28px;
+            font-size: 32px;
             letter-spacing: 2px;
             margin-bottom: 30px;
         }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            width: 100%;
+            max-width: 400px;
+        }
         button {
             display: block;
-            width: 80%;
-            max-width: 300px;
+            width: 100%;
             padding: 18px;
             margin: 15px 0;
             font-size: 18px;
             cursor: pointer;
             border: none;
             border-radius: 30px;
-            color: white;
             font-weight: bold;
             transition: all 0.3s ease;
             box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
         }
-        button:hover, button:active {
-            transform: translateY(-3px) scale(1.02);
+        button:hover, button:focus {
+            transform: scale(1.05);
             box-shadow: 0 8px 15px rgba(0,0,0,0.3);
-            background: rgba(255, 255, 255, 0.2);
+        }
+        button:active {
+            transform: scale(1.1);
         }
         #copyButton {
-            background: rgba(106, 17, 203, 0.2);
+            background: linear-gradient(to right, rgba(255,255,255,0.7), rgba(255,215,0,0.7));
+            color: #000000;
         }
         #clashButton {
-            background: rgba(52, 152, 219, 0.2);
+            background: linear-gradient(to right, rgba(255,255,255,0.7), rgba(0,191,255,0.7));
+            color: #000000;
         }
         #shadowrocketButton {
-            background: rgba(231, 76, 60, 0.2);
+            background: linear-gradient(to right, rgba(255,255,255,0.7), rgba(255,69,0,0.7));
+            color: #000000;
         }
         #singboxButton {
-            background: rgba(46, 204, 113, 0.2);
+            background: linear-gradient(to right, rgba(255,255,255,0.7), rgba(50,205,50,0.7));
+            color: #000000;
         }
         #copyStatus {
             text-align: center;
             margin-top: 15px;
             font-weight: bold;
-            color: #fff;
+            color: #00FFFF;
+            font-size: 18px;
             opacity: 0;
             transition: opacity 0.5s ease;
+            text-shadow: 0 0 10px rgba(0,255,255,0.7);
         }
         #rocketCanvas {
             position: fixed;
@@ -84,19 +98,34 @@
             height: 100%;
             z-index: 0;
         }
+        @media (max-width: 768px) {
+            button {
+                font-size: 16px;
+                padding: 16px;
+            }
+            h1 {
+                font-size: 28px;
+            }
+        }
     </style>
 </head>
 <body>
     <canvas id="rocketCanvas"></canvas>
     <div id="content">
-        <h1>订阅2一键导入</h1>
-        <button id="copyButton" onclick="copyToClipboard()">点击复制订阅2链接</button>
-        <div id="copyStatus">复制成功！</div>
-        <button id="clashButton" onclick="openClient('clash')">点击导入 Clash</button>
-        <button id="shadowrocketButton" onclick="openClient('shadowrocket')">点击导入小火箭</button>
-        <button id="singboxButton" onclick="openClient('singbox')">点击导入 Sing-box</button>
+        <h1>一键导入</h1>
+        <div class="button-container">
+            <!-- 修改点 1: 更新按钮文本 -->
+            <!-- 将 "订阅1链接复制" 改为 "订阅2链接复制" 或其他适当的文本 -->
+            <button id="copyButton" onclick="copyToClipboard()">订阅1链接复制</button>
+            <div id="copyStatus">复制成功！</div>
+            <button id="clashButton" onclick="openClient('clash')">导入 Clash</button>
+            <button id="shadowrocketButton" onclick="openClient('shadowrocket')">导入小火箭</button>
+            <button id="singboxButton" onclick="openClient('singbox')">导入 Sing-box</button>
+        </div>
     </div>
     <script>
+        // 修改点 2: 更新订阅链接
+        // 将此 URL 替换为新的订阅2链接
         const subscriptionUrl = 'https://alvless.filegear-sg.me/TCorg';
         function copyToClipboard() {
             const tempInput = document.createElement('input');
@@ -128,7 +157,17 @@
             window.open(url, '_blank');
         }
 
-        // Vivid Twinkling Stars and Fast Rockets
+        // Add touch event listeners for mobile devices
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.style.transform = 'scale(1.05)';
+            });
+            button.addEventListener('touchend', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+
+        // Enhanced Vivid Twinkling Stars and Fast Rockets
         const canvas = document.getElementById('rocketCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -171,19 +210,39 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + 20;
-                this.speed = Math.random() * 8 + 5;  // Increased speed
-                this.size = Math.random() * 8 + 5;
+                this.speed = Math.random() * 10 + 7;
+                this.size = Math.random() * 10 + 7;
                 this.color = `hsl(${Math.random() * 60 + 10}, 100%, 50%)`;
+                this.trail = [];
             }
 
             update() {
                 this.y -= this.speed;
+                this.trail.unshift({x: this.x, y: this.y + this.size * 4});
+                if (this.trail.length > 20) {
+                    this.trail.pop();
+                }
                 if (this.y < -40) {
                     this.reset();
                 }
             }
 
             draw() {
+                // Trail
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                this.trail.forEach((pos, index) => {
+                    ctx.globalAlpha = 1 - index / this.trail.length;
+                    if (index === 0) {
+                        ctx.moveTo(pos.x, pos.y);
+                    } else {
+                        ctx.lineTo(pos.x, pos.y);
+                    }
+                });
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+
                 // Main body
                 ctx.fillStyle = '#d3d3d3';
                 ctx.beginPath();
@@ -229,8 +288,8 @@
             }
         }
 
-        const stars = Array(400).fill().map(() => new Star());
-        const rockets = Array(15).fill().map(() => new Rocket());
+        const stars = Array(500).fill().map(() => new Star());
+        const rockets = Array(20).fill().map(() => new Rocket());
 
         function animate() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
@@ -254,7 +313,7 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             stars.length = 0;
-            stars.push(...Array(400).fill().map(() => new Star()));
+            stars.push(...Array(500).fill().map(() => new Star()));
         });
     </script>
 </body>
