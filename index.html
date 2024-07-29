@@ -114,9 +114,8 @@
     <div id="content">
         <h1>一键导入</h1>
         <div class="button-container">
-            <!-- 修改点 1: 更新按钮文本 -->
-            <!-- 将 "订阅1链接复制" 改为 "订阅2链接复制" 或其他适当的文本 -->
-            <button id="copyButton" onclick="copyToClipboard()">订阅1链接复制</button>
+            <!-- 2. 修改点击复制订阅2链接 -->
+            <button id="copyButton" onclick="copyToClipboard()">点击复制订阅1链接</button>
             <div id="copyStatus">复制成功！</div>
             <button id="clashButton" onclick="openClient('clash')">导入 Clash</button>
             <button id="shadowrocketButton" onclick="openClient('shadowrocket')">导入小火箭</button>
@@ -124,9 +123,12 @@
         </div>
     </div>
     <script>
-        // 修改点 2: 更新订阅链接
-        // 将此 URL 替换为新的订阅2链接
-        const subscriptionUrl = 'http://allsub.king361.cf/';
+        // 1. 更换订阅链接
+        const subscriptionUrl = 'http://allsub.king361.cf/'; // 在此处填入订阅2链接
+
+        // 3. 填入订阅2转换后的sing box格式使用订阅链接
+        const singboxSubscriptionUrl = 'sing-box://import-remote-profile?url=http://allsub.king361.cf/'; // 在此处填入转换后的 Sing-box 订阅链接
+
         function copyToClipboard() {
             const tempInput = document.createElement('input');
             tempInput.value = subscriptionUrl;
@@ -140,6 +142,7 @@
                 copyStatus.style.opacity = '0';
             }, 2000);
         }
+
         function openClient(client) {
             const encodedUrl = encodeURIComponent(subscriptionUrl);
             let url;
@@ -151,7 +154,7 @@
                     url = `shadowrocket://add/sub://${btoa(subscriptionUrl)}`;
                     break;
                 case 'singbox':
-                    url = `sing-box://import-remote-profile?url=${encodedUrl}`;
+                    url = singboxSubscriptionUrl;
                     break;
             }
             window.open(url, '_blank');
