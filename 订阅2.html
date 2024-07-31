@@ -107,9 +107,50 @@
                 font-size: 28px;
             }
         }
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            z-index: 2;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .links {
+            display: flex;
+            gap: 20px;
+        }
+        .links a {
+            padding: 10px 15px;
+            background: linear-gradient(to right, #ff6b6b, #feca57);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .links a:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="https://drive.google.com/thumbnail?id=1iH-cCZfhVWwStkrcGjle5IzIGdoDMoN7" alt="Logo" class="logo">
+        <div class="links">
+            <a href="https://t.me/+pAyiKR53BdI1NGNl" target="_blank">官方群组</a>
+            <a href="https://t.me/+22F_AHcQbIFjOTA1" target="_blank">官方频道</a>
+        </div>
+    </div>
     <canvas id="rocketCanvas"></canvas>
     <div id="content">
         <h1>一键导入</h1>
@@ -160,7 +201,6 @@
             window.open(url, '_blank');
         }
 
-        // Add touch event listeners for mobile devices
         document.querySelectorAll('button').forEach(button => {
             button.addEventListener('touchstart', function() {
                 this.style.transform = 'scale(1.05)';
@@ -170,7 +210,6 @@
             });
         });
 
-        // Enhanced Vivid Twinkling Stars and Fast Rockets
         const canvas = document.getElementById('rocketCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -184,7 +223,7 @@
                 this.twinkleSpeed = Math.random() * 0.1 + 0.03;
                 this.angle = Math.random() * Math.PI * 2;
                 this.maxBrightness = Math.random() * 0.5 + 0.5;
-                this.hue = Math.random() * 60 + 180; // Blue to white range
+                this.hue = Math.random() * 60 + 180;
             }
 
             update() {
@@ -231,7 +270,6 @@
             }
 
             draw() {
-                // Trail
                 ctx.strokeStyle = this.color;
                 ctx.lineWidth = 2;
                 ctx.beginPath();
@@ -246,7 +284,6 @@
                 ctx.stroke();
                 ctx.globalAlpha = 1;
 
-                // Main body
                 ctx.fillStyle = '#d3d3d3';
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
@@ -255,7 +292,6 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // Nose cone
                 ctx.fillStyle = '#a9a9a9';
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y);
@@ -264,7 +300,6 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // Fins
                 ctx.fillStyle = '#808080';
                 ctx.beginPath();
                 ctx.moveTo(this.x - this.size / 2, this.y + this.size * 3.5);
@@ -280,7 +315,6 @@
                 ctx.closePath();
                 ctx.fill();
 
-                // Flame
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.moveTo(this.x, this.y + this.size * 4);
