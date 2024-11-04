@@ -155,8 +155,7 @@
     <div id="content">
         <h1>一键导入</h1>
         <div class="button-container">
-            <!-- 2. 修改点击复制订阅3链接 -->
-            <button id="copyButton" onclick="copyToClipboard()">点击复制订阅3链接</button>
+            <button id="copyButton" onclick="copyToClipboard()">点击复制订阅1链接</button>
             <div id="copyStatus">复制成功！</div>
             <button id="clashButton" onclick="openClient('clash')">导入 Clash</button>
             <button id="shadowrocketButton" onclick="openClient('shadowrocket')">导入小火箭</button>
@@ -164,11 +163,14 @@
         </div>
     </div>
     <script>
-        // 1. 更换订阅链接
-        const subscriptionUrl = 'https://raw.githubusercontent.com/godfather216/telegram/main/dizhu3.yaml'; // 在此处填入订阅3链接
-
-        // 3. 填入订阅2转换后的sing box格式使用订阅链接
-        const singboxSubscriptionUrl = 'sing-box://import-remote-profile?url=https://raw.githubusercontent.com/godfather216/telegram/refs/heads/main/dizhu3.json'; // 在此处填入转换后的 Sing-box 订阅链接
+        // Clash订阅链接
+        const subscriptionUrl = 'https://raw.githubusercontent.com/godfather216/telegram/main/dizhu3.yaml';
+        
+        // Shadowrocket专用订阅链接
+        const shadowrocketUrl = 'https://mxlsub.me/free'; // 在此处填入Shadowrocket专用订阅链接
+        
+        // Sing-box订阅链接
+        const singboxSubscriptionUrl = 'sing-box://import-remote-profile?url=https://raw.githubusercontent.com/godfather216/telegram/refs/heads/main/dizhu3.json';
 
         function copyToClipboard() {
             const tempInput = document.createElement('input');
@@ -185,14 +187,12 @@
         }
 
         function openClient(client) {
-            const encodedUrl = encodeURIComponent(subscriptionUrl);
-            let url;
             switch(client) {
                 case 'clash':
-                    url = `clash://install-config?url=${encodedUrl}`;
+                    url = `clash://install-config?url=${encodeURIComponent(subscriptionUrl)}`;
                     break;
                 case 'shadowrocket':
-                    url = `shadowrocket://add/sub://${btoa(subscriptionUrl)}`;
+                    url = `shadowrocket://add/sub://${btoa(shadowrocketUrl)}`; // 使用Shadowrocket专用链接
                     break;
                 case 'singbox':
                     url = singboxSubscriptionUrl;
